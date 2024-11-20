@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'librarian_dashboard',
     'bookloans',
     'student_dashboard',
+    'access',
     # 'encrypted_model_fields',
 ]
 
