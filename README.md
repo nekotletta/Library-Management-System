@@ -141,6 +141,17 @@ You should see the default Django tables (e.g., `auth_user`, `django_migrations`
 
 ---
 
+### **C) Add Mock Data**
+Run the following commands to add mock data to the local database:
+
+1. Apply the migrations:
+   ```bash
+   mysql -u bookworm_user -p bookworm < mockBookData.sql
+   mysql -u bookworm_user -p bookworm < mockStudentData.sql
+   mysql -u bookworm_user -p bookworm < mockLibrarianData.sql
+   ```
+---
+
 ### **D) Start the Django Server**
 Run the development server:
 ```bash
