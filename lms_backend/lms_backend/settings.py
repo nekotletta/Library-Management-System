@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'user_reg',
-    'librarian_dashboard',
-    'bookloans',
-    'student_dashboard',
-    # 'encrypted_model_fields',
+    # 'user_reg',
+    # 'librarian_dashboard',
+    # 'bookloans',
+    # 'student_dashboard',
+    # 'authentication',
+    'corsheaders',
+    'library',
 ]
 
 MIDDLEWARE = [
@@ -59,14 +61,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'lms_backend.urls'
+EXTERNAL_URL = os.getenv('REACT_URL')
+
+CORS_ORIGIN_WHITELIST = [
+    EXTERNAL_URL,
+]
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, '../lms_frontend/src')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,13 +96,26 @@ WSGI_APPLICATION = 'lms_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.getenv('DB_NAME'), # This is where you put the name of the db file. 
+#                  # If one doesn't exist, it will be created at migration time.
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('DB_NAME'), # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'ENGINE': 'django.db.backends.mysql',  # Use MySQL database backend
+        'NAME': os.getenv('DB_NAME'),         # Name of your database
+        'USER': os.getenv('DB_USER'),          # Your database user
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # Your database password
+        'HOST': os.getenv('DB_HOST'),          # Set to empty string for localhost or the IP address of your database server
+        'PORT': os.getenv('DB_PORT'),   
     }
 }
+
 
 
 
@@ -113,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTH_USER_MODEL = 'user_reg.LibraryUser'
+AUTH_USER_MODEL = 'library.LibraryUser'
 
 
 # Internationalization
