@@ -9,4 +9,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: '100.127.68.1', // Your Tailscale IP address
+    port: 5678, // Your desired port number
+  },
 })
