@@ -19,8 +19,12 @@ urlpatterns = [
     path('add_genre/', add_genre, name='add_genre'),
     path('add_book/', add_book, name='add_book'),
     path('edit_book/<str:book_id>/', edit_book, name='edit_book'),
-    path('delete_book/<str:book_id>/', delete_book, name='delete_book'),
+    path('delete_book/', delete_book, name='delete_book'),
     path('login/', login, name='login'),
     path('register/', register, name='register'),
+    path('edit_info/<str:user_id>/', edit_user_info, name='edit_user_info'),
     path('make_reservation/', make_reservation, name='make_reservation'),
+    path('extend_reservation/', extend_reservation, name='extend_reservation'),
+    path('return_book/', return_book, name='return_book'),
+    path('add_to_waitlist/', add_to_waitlist, name='add_to_waitlist'),
 ]

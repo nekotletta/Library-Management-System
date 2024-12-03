@@ -22,7 +22,7 @@ class CustomAccountManager(BaseUserManager):
         user.set_password(password)  # Set and hash the password
         user.save(using=self._db)
 
-        # return user
+        return user
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -33,7 +33,7 @@ class CustomAccountManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        self.create_user(email, password, **extra_fields)
+        self.create_user(email, password, **extra_fields) # Creo q esto puede ser el return?
 
         # return user
 
@@ -99,7 +99,7 @@ class Reservations(models.Model):
     copy_id = models.ForeignKey(Book_Copies, on_delete=models.CASCADE, default=1)  # Copy ID
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)  # Book ID
     start_date = models.DateField(auto_now_add=True)  # Reservation date
-    due_date = models.DateField(default=timezone.now() + timezone.timedelta(days=30))  # Return date
+    due_date = models.DateField(default=datetime.date.today() + timezone.timedelta(days=30))
 
     def __str__(self):
         return str(self.reservation_id)
@@ -112,11 +112,12 @@ class Waitlist(models.Model):
     date_placed = models.DateField(auto_now_add=True)  # Date added to waitlist
     limit_date = models.DateField(blank=True, null=True)  # Date limit for reservation
     book_lent = models.BooleanField(default=False)  # Book lent status
+    next_in_line = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if not self.id:  # Check if the record is being created
+        if self.next_in_line:  # Check if the record is being created
             self.limit_date = self.date_placed + timezone.timedelta(days=3)
-        super(YourModel, self).save(*args, **kwargs)
+        super(Waitlist, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.waitlist_id)
+        return str(self.queue_id)
