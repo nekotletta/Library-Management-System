@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "node server-redirect.js & vite --host 172.18.0.7 --port 5678",
+ "scripts": {
+    "dev": "node server-redirect.cjs & vite --host 172.18.0.7 --port 5678", 
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -23,7 +23,7 @@
     "@radix-ui/react-tooltip": "^1.1.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
+    "date-fns": "^3.6.0",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
