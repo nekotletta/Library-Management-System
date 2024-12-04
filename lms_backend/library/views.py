@@ -90,6 +90,16 @@ class WaitlistViewSet(viewsets.ModelViewSet):
     queryset = Waitlist.objects.all()
     serializer_class = WaitlistSerializer
 
+    def get_queryset(self):
+        book_id = self.request.query_params.get('book_id')
+
+        queryset = Waitlist.objects.all()
+
+        if book_id:
+            queryset = queryset.filter(book_id=book_id)
+            
+        return queryset
+
 
 @api_view(['POST'])
 def register(request):
