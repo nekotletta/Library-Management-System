@@ -53,16 +53,16 @@ class GenreSerializer(serializers.ModelSerializer):
         return Genre.objects.create(**validated_data)
 
 class BookSerializer(serializers.ModelSerializer):
-    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), source='author', write_only=True)
-    genre_id = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all(), source='genre', write_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
+    genre_id = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all())
 
     class Meta:
         model = Book
         fields = '__all__'
         
     def create(self, validated_data):
-        author = validated_data.pop('author')
-        genre = validated_data.pop('genre')
+        author = validated_data.pop('author_id')
+        genre = validated_data.pop('genre_id')
         book_copies = validated_data.pop('copies_available', 1)
         
         book = Book.objects.create(author_id=author, genre_id=genre, **validated_data)
@@ -74,7 +74,7 @@ class BookSerializer(serializers.ModelSerializer):
         return book
 
 class BookCopiesSerializer(serializers.ModelSerializer):
-    copy_id = serializers.PrimaryKeyRelatedField(queryset=Book_Copies.objects.all(), write_only=True)
+    copy_id = serializers.PrimaryKeyRelatedField(queryset=Book_Copies.objects.all())
 
     class Meta:
         model = Book_Copies
@@ -82,8 +82,8 @@ class BookCopiesSerializer(serializers.ModelSerializer):
 
 
 class ReservationsSerializer(serializers.ModelSerializer):
-    user_id = serializers.PrimaryKeyRelatedField(queryset=LibraryUser.objects.all(), write_only=True)
-    book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all(), write_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(queryset=LibraryUser.objects.all())
+    book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all())
 
     class Meta:
         model = Reservations
@@ -149,8 +149,8 @@ class ReservationsSerializer(serializers.ModelSerializer):
         #         raise ValidationError(error_message)
 
 class WaitlistSerializer(serializers.ModelSerializer):
-    user_id = serializers.PrimaryKeyRelatedField(queryset=LibraryUser.objects.all(), write_only=True)
-    book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all(), write_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(queryset=LibraryUser.objects.all())
+    book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all())
 
     class Meta:
         model = Waitlist
